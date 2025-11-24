@@ -15,7 +15,7 @@ This project was built as a take-home assignment and follows the given spec:
 ## 🔗 Live Demo
 
 **Deployed app:**  
-`https://tinylink-assignment-eight.vercel.app/`
+**URL**: https://tinylink-assignment-eight.vercel.app/
 
 ---
 
