@@ -15,19 +15,17 @@ This project was built as a take-home assignment and follows the given spec:
 ## 🔗 Live Demo
 
 **Deployed app:**  
-`<DEPLOYED_URL_HERE>`
-
-(Replace this with your Vercel/Render/Railway URL.)
+`https://tinylink-assignment-eight.vercel.app/`
 
 ---
 
 ## 🧰 Tech Stack
 
 - **Framework:** Next.js (App Router) + TypeScript
-- **Styling:** Tailwind CSS / CSS modules (adjust based on what you used)
-- **Database:** PostgreSQL (e.g. Neon / Railway / Supabase)
+- **Styling:** Tailwind CSS 
+- **Database:** PostgreSQL 
 - **ORM:** Prisma
-- **Deployment:** Vercel (or Render/Railway – update as appropriate)
+- **Deployment:** Vercel 
 
 ---
 
