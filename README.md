@@ -1,36 +1,94 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TinyLink – URL Shortener Take-Home Assignment
 
-## Getting Started
+TinyLink is a minimal URL shortener web app similar to bit.ly.  
+It lets users create short links, track click statistics, and manage links via a clean dashboard.
 
-First, run the development server:
+This project was built as a take-home assignment and follows the given spec:
+- Shorten long URLs with optional custom codes
+- Redirect `/:code` to the target URL
+- Track total clicks and last clicked time
+- Provide a dashboard and a per-link stats page
+- Expose REST APIs for links and a `/healthz` endpoint
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🔗 Live Demo
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Deployed app:**  
+`<DEPLOYED_URL_HERE>`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+(Replace this with your Vercel/Render/Railway URL.)
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🧰 Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Framework:** Next.js (App Router) + TypeScript
+- **Styling:** Tailwind CSS / CSS modules (adjust based on what you used)
+- **Database:** PostgreSQL (e.g. Neon / Railway / Supabase)
+- **ORM:** Prisma
+- **Deployment:** Vercel (or Render/Railway – update as appropriate)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## ✨ Core Features
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Create short links**
+  - Input long URL + optional custom code
+  - Validate URL before saving
+  - Enforce code pattern: `[A-Za-z0-9]{6,8}`
+  - Return `409` if a custom code already exists
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Redirect**
+  - `GET /:code` → HTTP 302 redirect to target URL
+  - On each redirect:
+    - Increment `totalClicks`
+    - Update `lastClickedAt`
+
+- **Delete links**
+  - Delete from dashboard
+  - After deletion: `/:code` returns `404` and no longer redirects
+
+- **Dashboard (`/`)**
+  - Table of all links:
+    - Short code
+    - Target URL (truncated with ellipsis)
+    - Total clicks
+    - Last clicked time
+  - Actions:
+    - Add new link (with optional custom code)
+    - Delete link
+  - Optional search/filter by code or URL
+  - Copy-to-clipboard button for the short URL
+
+- **Stats page (`/code/:code`)**
+  - Show details for a single link
+  - Includes target URL, total clicks, last clicked time, etc.
+
+- **Healthcheck (`/healthz`)**
+  - Returns `200` with JSON, e.g.:
+    ```json
+    { "ok": true, "version": "1.0" }
+    ```
+
+---
+
+## 🏗 Project Structure
+
+> Adjust paths if your structure is slightly different.
+
+```text
+src/
+  app/
+    page.tsx            # Dashboard (list/add/delete links)
+    healthz/route.ts    # /healthz endpoint
+    [code]/page.tsx     # Stats page for /code/:code
+    api/
+      links/route.ts        # POST /api/links, GET /api/links
+      links/[code]/route.ts # GET /api/links/:code, DELETE /api/links/:code
+  lib/
+    db.ts               # Database client (Prisma)
+    links.ts            # Link-related helper functions
+prisma/
+  schema.prisma         # Prisma schema (Link model)
+.env.example            # Example environment variables
